@@ -170,12 +170,11 @@ func GenerateInterval[N Numeric](LowerBound, UpperBound Point[N]) Interval[N] {
 	Return:
 		Interval[N] Interval Struct
 
-	FIXME: Add support for Numerics {N} over integers {I}
-	Emptend Intervals can be created when there is an intersection between
-	two intervals that do not intersect (b_start > a_end || a_start > b_end),
-	if the intervals intersection is open and closed around the same point ex : {(1,3] ∩ (-∞, 2) => (1,2)},
+	FIXME: Add start and end endpoint parameters to function.
+	Empty Intervals can be created when there is an intersection between
+	two intervals that do not intersect (b_start > a_end || a_start > b_end)
 	or if the interval intersection is  at the same point but one point is Open
-	and the other Closed ex: {(2,3] ∩ (-1, 2]}
+	and the other Closed ex: {(2,3] ∩ (-1, 2] => (2,2]}
 */
 func GenerateEmptyInterval[N Numeric]() Interval[N] {
 	return Interval[N]{}
@@ -185,14 +184,10 @@ func GenerateEmptyInterval[N Numeric]() Interval[N] {
 	Public Function to generate an Open Interval.
 
 	Parameters:
-		start I 	Start endpoint of interval.
-		end I		End endpoint of interval.
+		start N 	Start endpoint of interval.
+		end N		End endpoint of interval.
 	Return:
 		Interval[N] Interval Struct
-
-	FIXME: Add support for Numerics {N} over integers {I}
-	The current implementation of Intervals only support Integers.
-	Once Golang supports a more mature Generics this method should be updated to support Numerics.
 */
 func GenerateOpenInterval[N Numeric](start, end N) Interval[N] {
 	LowerBound := Point[N]{Value: start, Type: OpenPoint}
@@ -204,14 +199,10 @@ func GenerateOpenInterval[N Numeric](start, end N) Interval[N] {
 	Public Function to generate a Closed Interval.
 
 	Parameters:
-		start I 	Start endpoint of interval.
-		end I		End endpoint of interval.
+		start N 	Start endpoint of interval.
+		end N		End endpoint of interval.
 	Return:
 		Interval[N] Interval Struct
-
-	FIXME: Add support for Numerics {N} over integers {I}
-	The current implementation of Intervals only support Integers.
-	Once Golang supports a more mature Generics this method should be updated to support Numerics.
 */
 func GenerateClosedInterval[N Numeric](start, end N) Interval[N] {
 	LowerBound := Point[N]{Value: start, Type: ClosedPoint}
@@ -223,14 +214,10 @@ func GenerateClosedInterval[N Numeric](start, end N) Interval[N] {
 	Public Function to generate a OpenClosed Interval.
 
 	Parameters:
-		start I 	Start endpoint of interval.
-		end I		End endpoint of interval.
+		start N 	Start endpoint of interval.
+		end N		End endpoint of interval.
 	Return:
 		Interval[N] Interval Struct
-
-	FIXME: Add support for Numerics {N} over integers {I}
-	The current implementation of Intervals only support Integers.
-	Once Golang supports a more mature Generics this method should be updated to support Numerics.
 */
 func GenerateOpenClosedInterval[N Numeric](start, end N) Interval[N] {
 	LowerBound := Point[N]{Value: start, Type: OpenPoint}
@@ -242,14 +229,10 @@ func GenerateOpenClosedInterval[N Numeric](start, end N) Interval[N] {
 	Public Function to generate a ClosedOpen Interval.
 
 	Parameters:
-		start I 	Start endpoint of interval.
-		end I		End endpoint of interval.
+		start N 	Start endpoint of interval.
+		end N		End endpoint of interval.
 	Return:
 		Interval[N] Interval Struct
-
-	FIXME: Add support for Numerics {N} over integers {I}
-	The current implementation of Intervals only support Integers.
-	Once Golang supports a more mature Generics this method should be updated to support Numerics.
 */
 func GenerateClosedOpenInterval[N Numeric](start, end N) Interval[N] {
 	LowerBound := Point[N]{Value: start, Type: ClosedPoint}
@@ -261,13 +244,9 @@ func GenerateClosedOpenInterval[N Numeric](start, end N) Interval[N] {
 	Public Function to generate a GreaterThan Interval.
 
 	Parameters:
-		start I 	Start endpoint of interval.
+		start N 	Start endpoint of interval.
 	Return:
 		Interval[N] Interval Struct
-
-	FIXME: Add support for Numerics {N} over integers {I}
-	The current implementation of Intervals only support Integers.
-	Once Golang supports a more mature Generics this method should be updated to support Numerics.
 */
 func GenerateGreaterThanInterval[N Numeric](start N) Interval[N] {
 	LowerBound := Point[N]{Value: start, Type: OpenPoint}
@@ -279,13 +258,9 @@ func GenerateGreaterThanInterval[N Numeric](start N) Interval[N] {
 	Public Function to generate a AtLeast Interval.
 
 	Parameters:
-		start I 	Start endpoint of interval.
+		start N 	Start endpoint of interval.
 	Return:
 		Interval[N] Interval Struct
-
-	FIXME: Add support for Numerics {N} over integers {I}
-	The current implementation of Intervals only support Integers.
-	Once Golang supports a more mature Generics this method should be updated to support Numerics.
 */
 func GenerateAtLeastInterval[N Numeric](start N) Interval[N] {
 	LowerBound := Point[N]{Value: start, Type: ClosedPoint}
@@ -297,13 +272,9 @@ func GenerateAtLeastInterval[N Numeric](start N) Interval[N] {
 	Public Function to generate a LessThan Interval.
 
 	Parameters:
-		start I 	Start endpoint of interval.
+		start N 	Start endpoint of interval.
 	Return:
 		Interval[N] Interval Struct
-
-	FIXME: Add support for Numerics {N} over integers {I}
-	The current implementation of Intervals only support Integers.
-	Once Golang supports a more mature Generics this method should be updated to support Numerics.
 */
 func GenerateLessThanInterval[N Numeric](end N) Interval[N] {
 	LowerBound := Point[N]{Value: N(math.Inf(-1)), Type: UnboundedPoint}
@@ -315,13 +286,9 @@ func GenerateLessThanInterval[N Numeric](end N) Interval[N] {
 	Public Function to generate a AtMost Interval.
 
 	Parameters:
-		start I 	Start endpoint of interval.
+		start N 	Start endpoint of interval.
 	Return:
 		Interval[N] Interval Struct
-
-	FIXME: Add support for Numerics {N} over integers {I}
-	The current implementation of Intervals only support Integers.
-	Once Golang supports a more mature Generics this method should be updated to support Numerics.
 */
 func GenerateAtMostInterval[N Numeric](end N) Interval[N] {
 	LowerBound := Point[N]{Value: N(math.Inf(-1)), Type: UnboundedPoint}
@@ -333,13 +300,9 @@ func GenerateAtMostInterval[N Numeric](end N) Interval[N] {
 	Public Function to generate a Unbounded Interval.
 
 	Parameters:
-		start I 	Start endpoint of interval.
+		start N 	Start endpoint of interval.
 	Return:
 		Interval[N] Interval Struct
-
-	FIXME: Add support for Numerics {N} over integers {I}
-	The current implementation of Intervals only support Integers.
-	Once Golang supports a more mature Generics this method should be updated to support Numerics.
 */
 func GenerateUnboundedInterval[N Numeric]() Interval[N] {
 	LowerBound := Point[N]{Value: N(math.Inf(-1)), Type: UnboundedPoint}
@@ -353,13 +316,9 @@ func GenerateUnboundedInterval[N Numeric]() Interval[N] {
 	Public Boolean Method that returns true if a Value is within an interval. False otherwise.
 
 	Parameters:
-		Value I 	Value of type Integer
+		Value N 	Value of type Integer
 	Return:
 		bool
-
-	FIXME: Add support for Numerics {N} over integers {I}
-	The current implementation of Intervals only support Integers (N).
-	Once Golang supports a more mature Generics this method should be updated to support Numerics.
 */
 func (self *Interval[N]) Contains(Value N) bool {
 	switch self.Type {
@@ -393,10 +352,6 @@ func (self *Interval[N]) Contains(Value N) bool {
 
 	Return:
 		int
-
-	FIXME: Add support for Numerics {N} over integers {I}
-	The current implementation of Intervals only support Integers (N).
-	Once Golang supports a more mature Generics this method should be updated to support Numerics.
 */
 func (self *Interval[N]) Count() int {
 	switch self.Type {
@@ -421,9 +376,6 @@ func (self *Interval[N]) Count() int {
 	Return:
 		c Interval[N]	a ∩ b
 
-	FIXME: Add support for Numerics {N} over integers {I}
-	The current implementation of Intervals only support Integers (N).
-	Once Golang supports a more mature Generics this method should be updated to support Numerics.
 */
 func Intersect[N Numeric](a, b Interval[N]) Interval[N] {
 	/* an intersection involving an Empty Interval always results in an Empty Interval */

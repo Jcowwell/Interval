@@ -8,7 +8,7 @@ import (
 )
 
 func preFormattedErrorString[T any](got, expected T) string {
-	return fmt.Sprintf("got: %+v expected: %+v", got, expected)
+	return fmt.Sprintf("expected: %+v, got: %+v", expected, got)
 }
 
 func AssertTrue(value bool, t *testing.T) {
