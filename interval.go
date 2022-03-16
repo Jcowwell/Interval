@@ -1,6 +1,7 @@
 package interval
 
 import (
+	"fmt"
 	"math"
 )
 
@@ -365,6 +366,82 @@ func (self *Interval[N]) Count() int {
 		return int(math.Inf(0))
 	}
 	return 0
+}
+
+/* Public Method that returns the Interval Notation representation of the interval  */
+func (self *Interval[N]) String() string {
+	var notation string = "{}"
+	switch self.Type {
+	case DegenerateInterval:
+		notation = fmt.Sprintf("[%v,%v]", self.LowerBound.Value, self.UpperBound.Value)
+		break
+	case OpenInterval:
+		notation = fmt.Sprintf("(%v,%v)", self.LowerBound.Value, self.UpperBound.Value)
+		break
+	case ClosedInterval:
+		notation = fmt.Sprintf("[%v,%v]", self.LowerBound.Value, self.UpperBound.Value)
+		break
+	case OpenClosedInterval:
+		notation = fmt.Sprintf("(%v,%v]", self.LowerBound.Value, self.UpperBound.Value)
+		break
+	case ClosedOpenInterval:
+		notation = fmt.Sprintf("[%v,%v)", self.LowerBound.Value, self.UpperBound.Value)
+		break
+	case GreaterThanInterval:
+		notation = fmt.Sprintf("(%v,+∞)", self.LowerBound.Value)
+		break
+	case AtLeastInterval:
+		notation = fmt.Sprintf("[%v,+∞)", self.LowerBound.Value)
+		break
+	case LessThanInterval:
+		notation = fmt.Sprintf("(-∞,%v)", self.UpperBound.Value)
+		break
+	case AtMostInterval:
+		notation = fmt.Sprintf("(-∞,%v]", self.UpperBound.Value)
+		break
+	case UnboundedInterval:
+		notation = "(-∞,+∞)"
+		break
+	}
+	return notation
+}
+
+/* Public Method that returns the set notation of the interval. */
+func (self *Interval[N]) SetNotation() string {
+	var notation string = "{}"
+	switch self.Type {
+	case DegenerateInterval:
+		notation = fmt.Sprintf("{%v}", self.LowerBound.Value)
+		break
+	case OpenInterval:
+		notation = fmt.Sprintf("{x | %v < x < %v}", self.LowerBound.Value, self.UpperBound.Value)
+		break
+	case ClosedInterval:
+		notation = fmt.Sprintf("{x | %v ≤ x ≤ %v}", self.LowerBound.Value, self.UpperBound.Value)
+		break
+	case OpenClosedInterval:
+		notation = fmt.Sprintf("{x | %v < x ≤ %v}", self.LowerBound.Value, self.UpperBound.Value)
+		break
+	case ClosedOpenInterval:
+		notation = fmt.Sprintf("{x | %v ≤ x < %v}", self.LowerBound.Value, self.UpperBound.Value)
+		break
+	case GreaterThanInterval:
+		notation = fmt.Sprintf("{x | x > %v}", self.LowerBound.Value)
+		break
+	case AtLeastInterval:
+		notation = fmt.Sprintf("{x | x ≥ %v}", self.LowerBound.Value)
+		break
+	case LessThanInterval:
+		notation = fmt.Sprintf("{x | x < %v}", self.UpperBound.Value)
+		break
+	case AtMostInterval:
+		notation = fmt.Sprintf("{x | x ≤ %v}", self.UpperBound.Value)
+		break
+	case UnboundedInterval:
+		notation = "{x | -∞ < x < +∞}"
+		break
+	}
+	return notation
 }
 
 /*

@@ -10,6 +10,8 @@ import (
 func TestGenerateEmptyInterval(t *testing.T) {
 	interval := GenerateEmptyInterval[int]()
 	AssertEqual(len(interval.Values), 0, t)
+	AssertEqual(interval.String(), "{}", t)
+	AssertEqual(interval.SetNotation(), "{}", t)
 	AssertEqual(interval.Type, EmptyInterval, t)
 }
 
@@ -26,6 +28,8 @@ func TestGenerateOpenInterval(t *testing.T) {
 	AssertFalse(interval.Contains(0), t)
 	AssertFalse(interval.Contains(9), t)
 	AssertTrue(interval.Contains(5), t)
+	AssertEqual(interval.String(), "(0,9)", t)
+	AssertEqual(interval.SetNotation(), "{x | 0 < x < 9}", t)
 	AssertEqual(interval.Type, OpenInterval, t)
 }
 
@@ -42,6 +46,8 @@ func TestGenerateClosedInterval(t *testing.T) {
 	AssertTrue(interval.Contains(0), t)
 	AssertTrue(interval.Contains(9), t)
 	AssertTrue(interval.Contains(5), t)
+	AssertEqual(interval.String(), "[0,9]", t)
+	AssertEqual(interval.SetNotation(), "{x | 0 ≤ x ≤ 9}", t)
 	AssertEqual(interval.Type, ClosedInterval, t)
 }
 
@@ -58,6 +64,8 @@ func TestGenerateOpenClosedInterval(t *testing.T) {
 	AssertFalse(interval.Contains(0), t)
 	AssertTrue(interval.Contains(9), t)
 	AssertTrue(interval.Contains(5), t)
+	AssertEqual(interval.String(), "(0,9]", t)
+	AssertEqual(interval.SetNotation(), "{x | 0 < x ≤ 9}", t)
 	AssertEqual(interval.Type, OpenClosedInterval, t)
 }
 
@@ -74,6 +82,8 @@ func TestGenerateClosedOpenInterval(t *testing.T) {
 	AssertTrue(interval.Contains(0), t)
 	AssertFalse(interval.Contains(9), t)
 	AssertTrue(interval.Contains(5), t)
+	AssertEqual(interval.String(), "[0,9)", t)
+	AssertEqual(interval.SetNotation(), "{x | 0 ≤ x < 9}", t)
 	AssertEqual(interval.Type, ClosedOpenInterval, t)
 }
 
@@ -87,6 +97,8 @@ func TestGenerateGreaterThanInterval(t *testing.T) {
 	AssertFalse(interval.Contains(9), t)
 	AssertTrue(interval.Contains(10), t)
 	AssertTrue(interval.Contains(500), t)
+	AssertEqual(interval.String(), "(9,+∞)", t)
+	AssertEqual(interval.SetNotation(), "{x | x > 9}", t)
 	AssertEqual(interval.Type, GreaterThanInterval, t)
 }
 
@@ -100,6 +112,8 @@ func TestGenerateAtLeastInterval(t *testing.T) {
 	AssertTrue(interval.Contains(9), t)
 	AssertTrue(interval.Contains(10), t)
 	AssertTrue(interval.Contains(500), t)
+	AssertEqual(interval.String(), "[9,+∞)", t)
+	AssertEqual(interval.SetNotation(), "{x | x ≥ 9}", t)
 	AssertEqual(interval.Type, AtLeastInterval, t)
 }
 
@@ -113,6 +127,8 @@ func TestGenerateLessThanInterval(t *testing.T) {
 	AssertFalse(interval.Contains(9), t)
 	AssertTrue(interval.Contains(5), t)
 	AssertTrue(interval.Contains(-500), t)
+	AssertEqual(interval.String(), "(-∞,9)", t)
+	AssertEqual(interval.SetNotation(), "{x | x < 9}", t)
 	AssertEqual(interval.Type, LessThanInterval, t)
 }
 
@@ -126,6 +142,8 @@ func TestGenerateAtMostInterval(t *testing.T) {
 	AssertTrue(interval.Contains(9), t)
 	AssertTrue(interval.Contains(5), t)
 	AssertTrue(interval.Contains(-500), t)
+	AssertEqual(interval.String(), "(-∞,9]", t)
+	AssertEqual(interval.SetNotation(), "{x | x ≤ 9}", t)
 	AssertEqual(interval.Type, AtMostInterval, t)
 }
 
@@ -139,6 +157,8 @@ func TestGenerateUnboundInterval(t *testing.T) {
 	AssertTrue(interval.Contains(9), t)
 	AssertTrue(interval.Contains(5), t)
 	AssertTrue(interval.Contains(-500), t)
+	AssertEqual(interval.String(), "(-∞,+∞)", t)
+	AssertEqual(interval.SetNotation(), "{x | -∞ < x < +∞}", t)
 	AssertEqual(interval.Type, UnboundedInterval, t)
 }
 
@@ -162,6 +182,8 @@ func TestOOIntervalIntersect(t *testing.T) {
 	AssertTrue(c.Contains(3), t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "(2,4)", t)
+	AssertEqual(c.SetNotation(), "{x | 2 < x < 4}", t)
 	AssertEqual(c.Type, OpenInterval, t)
 }
 
@@ -181,6 +203,8 @@ func TestOCIntervalIntersect(t *testing.T) {
 	AssertTrue(c.Contains(3), t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "[2,4)", t)
+	AssertEqual(c.SetNotation(), "{x | 2 ≤ x < 4}", t)
 	AssertEqual(c.Type, ClosedOpenInterval, t)
 }
 
@@ -198,6 +222,8 @@ func TestOOCIntervalIntersect(t *testing.T) {
 	AssertTrue(c.Contains(3), t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "(2,4)", t)
+	AssertEqual(c.SetNotation(), "{x | 2 < x < 4}", t)
 	AssertEqual(c.Type, OpenInterval, t)
 }
 
@@ -216,6 +242,8 @@ func TestOCOIntervalIntersect(t *testing.T) {
 	AssertTrue(c.Contains(3), t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "[2,4)", t)
+	AssertEqual(c.SetNotation(), "{x | 2 ≤ x < 4}", t)
 	AssertEqual(c.Type, ClosedOpenInterval, t)
 }
 
@@ -233,6 +261,8 @@ func TestOGTIntervalIntersect(t *testing.T) {
 	AssertTrue(c.Contains(3), t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "(2,4)", t)
+	AssertEqual(c.SetNotation(), "{x | 2 < x < 4}", t)
 	AssertEqual(c.Type, OpenInterval, t)
 }
 
@@ -251,6 +281,8 @@ func TestOALIntervalIntersect(t *testing.T) {
 	AssertTrue(c.Contains(3), t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "[2,4)", t)
+	AssertEqual(c.SetNotation(), "{x | 2 ≤ x < 4}", t)
 	AssertEqual(c.Type, ClosedOpenInterval, t)
 }
 
@@ -266,6 +298,8 @@ func TestOLTIntervalIntersect(t *testing.T) {
 	AssertEqual(c.UpperBound.Type, OpenPoint, t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(2), t)
+	AssertEqual(c.String(), "(1,2)", t)
+	AssertEqual(c.SetNotation(), "{x | 1 < x < 2}", t)
 	AssertEqual(c.Type, OpenInterval, t)
 }
 
@@ -284,6 +318,8 @@ func TestOAMIntervalIntersect(t *testing.T) {
 	AssertTrue(c.Contains(3), t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "[2,4)", t)
+	AssertEqual(c.SetNotation(), "{x | 2 ≤ x < 4}", t)
 	AssertEqual(c.Type, ClosedOpenInterval, t)
 }
 
@@ -302,6 +338,8 @@ func TestOUIntervalIntersect(t *testing.T) {
 	AssertTrue(c.Contains(3), t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "[2,4)", t)
+	AssertEqual(c.SetNotation(), "{x | 2 ≤ x < 4}", t)
 	AssertEqual(c.Type, ClosedOpenInterval, t)
 }
 
@@ -324,6 +362,8 @@ func TestCCIntervalIntersect(t *testing.T) {
 	AssertTrue(c.Contains(3), t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "[2,4]", t)
+	AssertEqual(c.SetNotation(), "{x | 2 ≤ x ≤ 4}", t)
 	AssertEqual(c.Type, ClosedInterval, t)
 }
 
@@ -342,6 +382,8 @@ func TestCOCIntervalIntersect(t *testing.T) {
 	AssertTrue(c.Contains(3), t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "(2,4]", t)
+	AssertEqual(c.SetNotation(), "{x | 2 < x ≤ 4}", t)
 	AssertEqual(c.Type, OpenClosedInterval, t)
 }
 
@@ -360,6 +402,8 @@ func TestCCOIntervalIntersect(t *testing.T) {
 	AssertTrue(c.Contains(3), t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "[2,4]", t)
+	AssertEqual(c.SetNotation(), "{x | 2 ≤ x ≤ 4}", t)
 	AssertEqual(c.Type, ClosedInterval, t)
 }
 
@@ -378,6 +422,8 @@ func TestCGTIntervalIntersect(t *testing.T) {
 	AssertTrue(c.Contains(3), t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "[2,4]", t)
+	AssertEqual(c.SetNotation(), "{x | 2 ≤ x ≤ 4}", t)
 	AssertEqual(c.Type, ClosedInterval, t)
 }
 
@@ -396,6 +442,8 @@ func TestCATIntervalIntersect(t *testing.T) {
 	AssertTrue(c.Contains(3), t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "[2,4]", t)
+	AssertEqual(c.SetNotation(), "{x | 2 ≤ x ≤ 4}", t)
 	AssertEqual(c.Type, ClosedInterval, t)
 }
 
@@ -412,6 +460,8 @@ func TestCLTIntervalIntersect(t *testing.T) {
 	AssertEqual(c.UpperBound.Type, OpenPoint, t)
 	AssertTrue(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "[2,4)", t)
+	AssertEqual(c.SetNotation(), "{x | 2 ≤ x < 4}", t)
 	AssertEqual(c.Type, ClosedOpenInterval, t)
 }
 
@@ -429,6 +479,8 @@ func TestCAMIntervalIntersect(t *testing.T) {
 	AssertEqual(c.Values[1], 2, t)
 	AssertTrue(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "[1,2]", t)
+	AssertEqual(c.SetNotation(), "{x | 1 ≤ x ≤ 2}", t)
 	AssertEqual(c.Type, ClosedInterval, t)
 }
 
@@ -446,6 +498,8 @@ func TestCUIntervalIntersect(t *testing.T) {
 	AssertEqual(c.Values[3], 4, t)
 	AssertTrue(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "[1,4]", t)
+	AssertEqual(c.SetNotation(), "{x | 1 ≤ x ≤ 4}", t)
 	AssertEqual(c.Type, ClosedInterval, t)
 }
 
@@ -467,6 +521,8 @@ func TestOCOCIntervalIntersect(t *testing.T) {
 	AssertEqual(c.Values[1], 4, t)
 	AssertTrue(c.Contains(3), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "(2,4]", t)
+	AssertEqual(c.SetNotation(), "{x | 2 < x ≤ 4}", t)
 	AssertEqual(c.Type, OpenClosedInterval, t)
 }
 
@@ -484,6 +540,8 @@ func TestOCCOIntervalIntersect(t *testing.T) {
 	AssertEqual(c.Values[2], 4, t)
 	AssertTrue(c.Contains(3), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "[2,4]", t)
+	AssertEqual(c.SetNotation(), "{x | 2 ≤ x ≤ 4}", t)
 	AssertEqual(c.Type, ClosedInterval, t)
 }
 
@@ -501,6 +559,8 @@ func TestOCGTIntervalIntersect(t *testing.T) {
 	AssertEqual(c.Values[1], 4, t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "(2,4]", t)
+	AssertEqual(c.SetNotation(), "{x | 2 < x ≤ 4}", t)
 	AssertEqual(c.Type, OpenClosedInterval, t)
 }
 
@@ -518,6 +578,8 @@ func TestOCALIntervalIntersect(t *testing.T) {
 	AssertEqual(c.Values[2], 4, t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "[2,4]", t)
+	AssertEqual(c.SetNotation(), "{x | 2 ≤ x ≤ 4}", t)
 	AssertEqual(c.Type, ClosedInterval, t)
 }
 
@@ -533,6 +595,8 @@ func TestOCLTIntervalIntersect(t *testing.T) {
 	AssertEqual(c.UpperBound.Type, OpenPoint, t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "(1,2)", t)
+	AssertEqual(c.SetNotation(), "{x | 1 < x < 2}", t)
 	AssertEqual(c.Type, OpenInterval, t)
 }
 
@@ -549,6 +613,8 @@ func TestOCAMIntervalIntersect(t *testing.T) {
 	AssertEqual(c.Values[0], 2, t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "(1,2]", t)
+	AssertEqual(c.SetNotation(), "{x | 1 < x ≤ 2}", t)
 	AssertEqual(c.Type, OpenClosedInterval, t)
 }
 
@@ -566,6 +632,8 @@ func TestOCUIntervalIntersect(t *testing.T) {
 	AssertEqual(c.Values[2], 4, t)
 	AssertTrue(c.Contains(3), t)
 	AssertFalse(c.Contains(1), t)
+	AssertEqual(c.String(), "(1,4]", t)
+	AssertEqual(c.SetNotation(), "{x | 1 < x ≤ 4}", t)
 	AssertEqual(c.Type, OpenClosedInterval, t)
 }
 
@@ -587,6 +655,8 @@ func TestCOCOIntervalIntersect(t *testing.T) {
 	AssertEqual(c.Values[1], 3, t)
 	AssertTrue(c.Contains(3), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "[2,4)", t)
+	AssertEqual(c.SetNotation(), "{x | 2 ≤ x < 4}", t)
 	AssertEqual(c.Type, ClosedOpenInterval, t)
 }
 
@@ -603,6 +673,8 @@ func TestCOGTIntervalIntersect(t *testing.T) {
 	AssertEqual(c.UpperBound.Type, OpenPoint, t)
 	AssertTrue(c.Contains(3), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "(2,4)", t)
+	AssertEqual(c.SetNotation(), "{x | 2 < x < 4}", t)
 	AssertEqual(c.Type, OpenInterval, t)
 }
 
@@ -620,6 +692,8 @@ func TestCOALIntervalIntersect(t *testing.T) {
 	AssertEqual(c.Values[1], 3, t)
 	AssertTrue(c.Contains(3), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "[2,4)", t)
+	AssertEqual(c.SetNotation(), "{x | 2 ≤ x < 4}", t)
 	AssertEqual(c.Type, ClosedOpenInterval, t)
 }
 
@@ -636,6 +710,8 @@ func TestCOLTIntervalIntersect(t *testing.T) {
 	AssertEqual(c.UpperBound.Type, OpenPoint, t)
 	AssertFalse(c.Contains(2), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "[1,2)", t)
+	AssertEqual(c.SetNotation(), "{x | 1 ≤ x < 2}", t)
 	AssertEqual(c.Type, ClosedOpenInterval, t)
 }
 
@@ -653,6 +729,8 @@ func TestCOAMIntervalIntersect(t *testing.T) {
 	AssertEqual(c.Values[1], 2, t)
 	AssertTrue(c.Contains(1), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "[1,2]", t)
+	AssertEqual(c.SetNotation(), "{x | 1 ≤ x ≤ 2}", t)
 	AssertEqual(c.Type, ClosedInterval, t)
 }
 
@@ -670,6 +748,8 @@ func TestCOUIntervalIntersect(t *testing.T) {
 	AssertEqual(c.Values[1], 3, t)
 	AssertTrue(c.Contains(3), t)
 	AssertFalse(c.Contains(5), t)
+	AssertEqual(c.String(), "[2,4)", t)
+	AssertEqual(c.SetNotation(), "{x | 2 ≤ x < 4}", t)
 	AssertEqual(c.Type, ClosedOpenInterval, t)
 }
 
@@ -689,6 +769,8 @@ func TestGTGTIntervalIntersect(t *testing.T) {
 	AssertEqual(c.UpperBound.Type, UnboundedPoint, t)
 	AssertFalse(c.Contains(1), t)
 	AssertTrue(c.Contains(5), t)
+	AssertEqual(c.String(), "(2,+∞)", t)
+	AssertEqual(c.SetNotation(), "{x | x > 2}", t)
 	AssertEqual(c.Type, GreaterThanInterval, t)
 }
 
@@ -704,6 +786,8 @@ func TestGTALIntervalIntersect(t *testing.T) {
 	AssertEqual(c.UpperBound.Type, UnboundedPoint, t)
 	AssertFalse(c.Contains(1), t)
 	AssertTrue(c.Contains(5), t)
+	AssertEqual(c.String(), "(1,+∞)", t)
+	AssertEqual(c.SetNotation(), "{x | x > 1}", t)
 	AssertEqual(c.Type, GreaterThanInterval, t)
 }
 
@@ -719,6 +803,8 @@ func TestGTLTIntervalIntersect(t *testing.T) {
 	AssertEqual(c.UpperBound.Type, OpenPoint, t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(2), t)
+	AssertEqual(c.String(), "(1,2)", t)
+	AssertEqual(c.SetNotation(), "{x | 1 < x < 2}", t)
 	AssertEqual(c.Type, OpenInterval, t)
 }
 
@@ -734,6 +820,8 @@ func TestGTAMIntervalIntersect(t *testing.T) {
 	AssertEqual(c.UpperBound.Type, ClosedPoint, t)
 	AssertFalse(c.Contains(1), t)
 	AssertTrue(c.Contains(2), t)
+	AssertEqual(c.String(), "(1,2]", t)
+	AssertEqual(c.SetNotation(), "{x | 1 < x ≤ 2}", t)
 	AssertEqual(c.Type, OpenClosedInterval, t)
 }
 
@@ -749,6 +837,8 @@ func TestGTUIntervalIntersect(t *testing.T) {
 	AssertEqual(c.UpperBound.Type, UnboundedPoint, t)
 	AssertFalse(c.Contains(1), t)
 	AssertTrue(c.Contains(5), t)
+	AssertEqual(c.String(), "(1,+∞)", t)
+	AssertEqual(c.SetNotation(), "{x | x > 1}", t)
 	AssertEqual(c.Type, GreaterThanInterval, t)
 }
 
@@ -768,6 +858,8 @@ func TestALALIntervalIntersect(t *testing.T) {
 	AssertEqual(c.UpperBound.Type, UnboundedPoint, t)
 	AssertFalse(c.Contains(1), t)
 	AssertTrue(c.Contains(5), t)
+	AssertEqual(c.String(), "[1,+∞)", t)
+	AssertEqual(c.SetNotation(), "{x | x ≥ 1}", t)
 	AssertEqual(c.Type, AtLeastInterval, t)
 }
 
@@ -783,6 +875,8 @@ func TestALLTIntervalIntersect(t *testing.T) {
 	AssertEqual(c.UpperBound.Type, OpenPoint, t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(2), t)
+	AssertEqual(c.String(), "{}", t)
+	AssertEqual(c.SetNotation(), "{}", t)
 	AssertEqual(c.Type, EmptyInterval, t)
 }
 
@@ -798,6 +892,8 @@ func TestALAMIntervalIntersect(t *testing.T) {
 	AssertEqual(c.UpperBound.Type, OpenPoint, t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(2), t)
+	AssertEqual(c.String(), "{}", t)
+	AssertEqual(c.SetNotation(), "{}", t)
 	AssertEqual(c.Type, EmptyInterval, t)
 }
 
@@ -813,6 +909,8 @@ func TestALUIntervalIntersect(t *testing.T) {
 	AssertEqual(c.UpperBound.Type, UnboundedPoint, t)
 	AssertFalse(c.Contains(1), t)
 	AssertTrue(c.Contains(2), t)
+	AssertEqual(c.String(), "[2,+∞)", t)
+	AssertEqual(c.SetNotation(), "{x | x ≥ 2}", t)
 	AssertEqual(c.Type, AtLeastInterval, t)
 }
 
@@ -832,6 +930,8 @@ func TestLTLTIntervalIntersect(t *testing.T) {
 	AssertEqual(c.UpperBound.Type, OpenPoint, t)
 	AssertFalse(c.Contains(1), t)
 	AssertFalse(c.Contains(2), t)
+	AssertEqual(c.String(), "(-∞,1)", t)
+	AssertEqual(c.SetNotation(), "{x | x < 1}", t)
 	AssertEqual(c.Type, LessThanInterval, t)
 }
 
@@ -847,6 +947,8 @@ func TestLTAMIntervalIntersect(t *testing.T) {
 	AssertEqual(c.UpperBound.Type, ClosedPoint, t)
 	AssertTrue(c.Contains(1), t)
 	AssertFalse(c.Contains(2), t)
+	AssertEqual(c.String(), "(-∞,1]", t)
+	AssertEqual(c.SetNotation(), "{x | x ≤ 1}", t)
 	AssertEqual(c.Type, AtMostInterval, t)
 }
 
@@ -862,6 +964,8 @@ func TestLTUIntervalIntersect(t *testing.T) {
 	AssertEqual(c.UpperBound.Type, OpenPoint, t)
 	AssertTrue(c.Contains(1), t)
 	AssertFalse(c.Contains(2), t)
+	AssertEqual(c.String(), "(-∞,2)", t)
+	AssertEqual(c.SetNotation(), "{x | x < 2}", t)
 	AssertEqual(c.Type, LessThanInterval, t)
 }
 
@@ -881,6 +985,8 @@ func TestAMAMIntervalIntersect(t *testing.T) {
 	AssertEqual(c.UpperBound.Type, ClosedPoint, t)
 	AssertTrue(c.Contains(1), t)
 	AssertFalse(c.Contains(2), t)
+	AssertEqual(c.String(), "(-∞,2)", t)
+	AssertEqual(c.SetNotation(), "{x | x ≤ 2}", t)
 	AssertEqual(c.Type, AtMostInterval, t)
 }
 
@@ -896,6 +1002,8 @@ func TestAMUIntervalIntersect(t *testing.T) {
 	AssertEqual(c.UpperBound.Type, ClosedPoint, t)
 	AssertTrue(c.Contains(2), t)
 	AssertTrue(c.Contains(-10), t)
+	AssertEqual(c.String(), "(-∞,2]", t)
+	AssertEqual(c.SetNotation(), "{x | x ≤ 2}", t)
 	AssertEqual(c.Type, AtMostInterval, t)
 }
 
@@ -915,6 +1023,8 @@ func TestUUIntervalIntersect(t *testing.T) {
 	AssertEqual(c.UpperBound.Type, UnboundedPoint, t)
 	AssertTrue(c.Contains(1000000), t)
 	AssertTrue(c.Contains(-1000000), t)
+	AssertEqual(c.String(), "(-∞,+∞)", t)
+	AssertEqual(c.SetNotation(), "{x | -∞ < x < +∞}", t)
 	AssertEqual(c.Type, UnboundedInterval, t)
 }
 
