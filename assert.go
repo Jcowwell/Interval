@@ -7,6 +7,16 @@ import (
 	. "golang.org/x/exp/slices"
 )
 
+/*
+	Private Print Format function.
+
+	Parameters:
+		expected T	What the value should be
+		got T 		What the value is
+
+	Return:
+		string
+*/
 func preFormattedErrorString[T any](got, expected T) string {
 	return fmt.Sprintf("expected: %+v, got: %+v", expected, got)
 }
